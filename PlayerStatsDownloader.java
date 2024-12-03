@@ -1,13 +1,11 @@
 import java.io.*;
-import java.net.URI;
-import java.net.URISyntaxException;
 import java.util.*;
 
 public class PlayerStatsDownloader {
 
     public static List<PlayerStat> readCsvFromUrl(String urlString)  {            
             List<PlayerStat> records = new ArrayList<>();
-            try (BufferedReader br = new BufferedReader(new InputStreamReader(new URI(urlString).toURL().openStream()))) {
+            try (BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream(urlString)))) {
                 String line;
                 while ((line = br.readLine()) != null) {
                     String[] values = line.split(","); // Assuming comma-separated values
@@ -29,9 +27,7 @@ public class PlayerStatsDownloader {
                 }
             } catch (IOException ex) {
                 System.out.println("Unable to download player data due to "+ex);
-            } catch (URISyntaxException ex) {        
-                System.out.println("Unable to download player data due to "+ex);
-            }
+            } 
             return records;
         }
 
